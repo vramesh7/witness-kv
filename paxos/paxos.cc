@@ -18,6 +18,9 @@
 
 static void validateUniqueNodes( const std::vector<Node>& nodes );
 
+using grpc::ServerContext;
+using grpc::Status;
+
 // Paxos Impl class
 class PaxosImpl
 {
@@ -75,9 +78,9 @@ Paxos::~Paxos()
   delete m_paxosImpl;
 }
 
-void Paxos::Replicate( const std::string& value )
+void Paxos::Replicate( const std::string& value, const uint64_t& index )
 {
-  m_paxosImpl->m_proposer->Propose( this->m_paxosImpl->m_acceptorStubs, value );
+  m_paxosImpl->m_proposer->Propose( this->m_paxosImpl->m_acceptorStubs, value, index );
 }
 
 std::vector<Node> parseNodesConfig( const std::string& configFileName )
